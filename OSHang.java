@@ -29,7 +29,7 @@ public class OSHang {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose(); // Close current window
-                new playButton(); // Open new window
+                new instructions(); // Open new window
             }
         });
         
