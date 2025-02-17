@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import javax.sound.sampled.*;
 
 public class OSHang {
     public static void main(String[] args) {

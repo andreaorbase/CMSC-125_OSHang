@@ -1,12 +1,17 @@
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 public class MainMenu {
     private JFrame frame;
+    private static Clip clip;
 
     public MainMenu() {
+        playMusic("OSHang GUI/menuMusic.wav");
         frame = new JFrame("OSHang");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 525);
@@ -28,14 +33,38 @@ public class MainMenu {
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                stopMusic();
+                playSound("OSHang GUI/buttonClick.wav"); 
+                frame.dispose(); // Close current window
+                new playButton(); // Open new window
+            }
+        });
+
+        aboutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                stopMusic();
+                playSound("OSHang GUI/buttonClick.wav"); 
                 frame.dispose(); // Close current window
                 new instructions(); // Open new window
+            }
+        });
+
+        settingsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                stopMusic();
+                playSound("OSHang GUI/buttonClick.wav"); 
+                frame.dispose(); // Close current window
+                new settings(); // Open new window
             }
         });
         
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                stopMusic();
+                playSound("OSHang GUI/buttonClick.wav"); 
                 System.exit(0); // Terminate the application
             }
         });
@@ -60,6 +89,37 @@ public class MainMenu {
         button.setContentAreaFilled(false);
 
         return button;
+    }
+
+    private static void playSound(String filePath) {
+        try {
+            File audioFile = new File(filePath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void playMusic(String filePath) {
+        try {
+            File audioFile = new File(filePath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY); // Loop the music indefinitely
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void stopMusic() {
+        if (clip != null && clip.isRunning()) {
+            clip.stop();
+        }
     }
 
     public static void main(String[] args) {
