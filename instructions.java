@@ -1,4 +1,4 @@
-import javax.swing.*;
+/*import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,20 +11,20 @@ public class instructions {
     private JFrame newFrame;
 
     public instructions() {
-        newFrame = new JFrame("Instruction Window");
+        newFrame = new JFrame("About OSHang");
         newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         newFrame.setSize(600, 400);
         newFrame.setLayout(null); // Using absolute positioning like OSHang
         newFrame.setResizable(false);
         newFrame.setLocationRelativeTo(null);
 
-        ImageIcon background = new ImageIcon("OSHang GUI/instructionWindow.png");
+        ImageIcon background = new ImageIcon("OSHang GUI/aboutWindow.png");
         JLabel backgroundLabel = new JLabel(background);
         backgroundLabel.setBounds(0, 0, newFrame.getWidth(), newFrame.getHeight());
         newFrame.setContentPane(backgroundLabel);
         backgroundLabel.setLayout(null);
 
-        JButton backButton = createImageButton("OSHang GUI/playButton.png", 350, 280, 150, 50);
+        JButton backButton = createImageButton("OSHang GUI/homeButton.png", 350, 280, 50, 50);
 
         backButton.addActionListener(new ActionListener() {
             @Override

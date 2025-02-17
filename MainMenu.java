@@ -46,7 +46,7 @@ public class MainMenu {
                 stopMusic();
                 playSound("OSHang GUI/buttonClick.wav"); 
                 frame.dispose(); // Close current window
-                new instructions(); // Open new window
+                new about(); // Open new window
             }
         });
 

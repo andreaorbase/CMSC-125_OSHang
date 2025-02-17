@@ -7,30 +7,26 @@ import java.io.IOException;
 
 import javax.sound.sampled.*;
 
-public class settings {
+public class about {
     private JFrame newFrame;
-    private static Clip clip;
 
-    public settings() {
-        playMusic("OSHang GUI/settingsMusic.wav");
-        newFrame = new JFrame("Settings Window");
+    public about() {
+        newFrame = new JFrame("About OSHang");
         newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        newFrame.setSize(800, 525);
+        newFrame.setSize(900, 583);
         newFrame.setLayout(null); // Using absolute positioning like OSHang
         newFrame.setResizable(false);
         newFrame.setLocationRelativeTo(null);
 
-        ImageIcon background = new ImageIcon("OSHang GUI/settingsWindow.png");
+        ImageIcon background = new ImageIcon("OSHang GUI/aboutWindow.png");
         JLabel backgroundLabel = new JLabel(background);
         backgroundLabel.setBounds(0, 0, newFrame.getWidth(), newFrame.getHeight());
         newFrame.setContentPane(backgroundLabel);
         backgroundLabel.setLayout(null);
 
-        JButton homeButton = createImageButton("OSHang GUI/homeButton.png", 370, 430, 50, 50);
-        //JButton musicButton = createImageButton("OSHang GUI/musicOn.png", 300, 580, 50, 50);
-        //JButton sfxButton = createImageButton("OSHang GUI/sfxOn.png", 300, 580, 50, 50);
+        JButton backButton = createImageButton("OSHang GUI/homeButton.png", 370, 470, 50, 50);
 
-        homeButton.addActionListener(new ActionListener() {
+        backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 playSound("OSHang GUI/buttonClick.wav"); 
@@ -39,7 +35,7 @@ public class settings {
             }
         });
         
-        backgroundLabel.add(homeButton);
+        backgroundLabel.add(backButton);
 
         newFrame.setVisible(true);
     }
@@ -66,25 +62,6 @@ public class settings {
             clip.start();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
-        }
-    }
-
-    public static void playMusic(String filePath) {
-        try {
-            File audioFile = new File(filePath);
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-            clip = AudioSystem.getClip();
-            clip.open(audioStream);
-            clip.loop(Clip.LOOP_CONTINUOUSLY); // Loop the music indefinitely
-            clip.start();
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void stopMusic() {
-        if (clip != null && clip.isRunning()) {
-            clip.stop();
         }
     }
 }

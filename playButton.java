@@ -20,7 +20,7 @@ public class playButton {
         backgroundLabel.setLayout(null);
 
         // Sample label (you can add buttons or other UI elements here)
-        JLabel label = new JLabel("Welcome to the Play Window!");
+        JLabel label = new JLabel("OSHang");
         label.setBounds(300, 200, 300, 50);
         label.setFont(new Font("Arial", Font.BOLD, 16));
         label.setForeground(Color.WHITE);
