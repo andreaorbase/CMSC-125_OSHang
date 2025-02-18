@@ -1,0 +1,40 @@
+Kernel; The core part of an OS that manages hardware and system resources.  
+Process; A running instance of a program in execution.  
+Thread; A smaller unit of a process that can run concurrently.  
+Multitasking; Running multiple processes at the same time.  
+Scheduling; The method by which processes are assigned CPU time.  
+Deadlock; A situation where two or more processes are stuck waiting for each other.  
+Virtual Memory; A memory management technique that uses disk space to extend RAM.  
+Paging; A technique to manage memory by dividing it into fixed-size blocks.  
+Segmentation; A memory management technique that divides memory into variable-sized sections.  
+Bootloader; A program that initializes the OS when the computer starts.  
+Filesystem; A method used to store and organize files on storage devices.  
+Swap Space; A reserved space on disk used when RAM is full.  
+I/O Scheduler; Determines the order in which disk operations are performed.  
+API; A set of functions that allows programs to interact with the OS.  
+CLI; A text-based interface for interacting with the OS.  
+GUI; A visual interface that allows users to interact with the OS using graphics.  
+Process Table; A structure that keeps track of all active processes.  
+Shell; A command-line interpreter that interacts with the OS.  
+Driver; Software that allows the OS to communicate with hardware.  
+User Mode; A restricted mode where applications run with limited privileges.  
+Kernel Mode; A privileged mode where the OS has full access to hardware.  
+Fork; A system call that creates a new process.  
+Exec; A system call that replaces a process with a new program.  
+Thread Pool; A collection of worker threads used to manage tasks efficiently.  
+Interrupt; A signal that notifies the CPU to handle an event immediately.  
+Semaphore; A synchronization tool used to manage resource access.  
+Mutex; A mechanism to ensure only one process accesses a resource at a time.  
+Daemon; A background process that runs without user interaction.  
+Hypervisor; A software layer that enables virtualization of operating systems.  
+Monolithic Kernel; A kernel design where most OS services run in kernel space.  
+Microkernel; A minimalistic kernel that runs only essential functions in kernel space.  
+Real-Time OS; An OS designed to process data within strict timing constraints.  
+Linux; A popular open-source operating system used in servers and embedded systems.  
+Windows; A widely used OS developed by Microsoft.  
+macOS; Apple's operating system for its computers.  
+POSIX; A set of standards for UNIX-based operating systems.  
+Task Scheduler; A utility that automates the execution of tasks.  
+Registry; A database in Windows for storing system settings.  
+Syscall; A request made by a program to the OS for a service.  
+BIOS; The firmware that initializes hardware before the OS loads.  
