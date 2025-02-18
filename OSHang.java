@@ -14,7 +14,7 @@ public class OSHang {
         panel.setLayout(new BorderLayout());
         
         // Load and display the splash screen image
-        ImageIcon splashImage = new ImageIcon("OSHang GUI/serverRoom.gif"); // REPLACE WITH THE ACTUAL SPLASH SCREEN
+        ImageIcon splashImage = new ImageIcon("OSHang GUI/splashScreen.gif"); // REPLACE WITH THE ACTUAL SPLASH SCREEN
         JLabel splashLabel = new JLabel(splashImage);
         
         panel.add(splashLabel, BorderLayout.CENTER);
@@ -25,7 +25,7 @@ public class OSHang {
         splash.setVisible(true);
 
         try {
-            Thread.sleep(3000); // Show splash screen for 3 seconds
+            Thread.sleep(4500); // Show splash screen for 3 seconds
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

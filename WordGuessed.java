@@ -55,13 +55,13 @@ class GameOver {
         
         JPanel buttonPanel = new JPanel();
         
-        JButton homeButton = new JButton(new ImageIcon("homeButton.png"));
+        JButton homeButton = new JButton(new ImageIcon("OSHang GUI/homeButton.png"));
         homeButton.addActionListener(e -> {
             frame.dispose();
             new MainMenu();
         });
         
-        JButton againButton = new JButton(new ImageIcon("againButton.png"));
+        JButton againButton = new JButton(new ImageIcon("OSHang GUI/againButton.png"));
         againButton.addActionListener(e -> {
             frame.dispose();
             new GamePlay();
