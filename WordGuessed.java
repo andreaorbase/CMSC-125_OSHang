@@ -19,13 +19,13 @@ class WordGuessed {
         
         JPanel buttonPanel = new JPanel();
         
-        JButton homeButton = new JButton(new ImageIcon("homeButton.png"));
+        JButton homeButton = new JButton(new ImageIcon("OSHang GUI/homeButton.png"));
         homeButton.addActionListener(e -> {
             frame.dispose();
             new MainMenu();
         });
         
-        JButton nextButton = new JButton(new ImageIcon("nextButton.png"));
+        JButton nextButton = new JButton(new ImageIcon("OSHang GUI/nextButton.png"));
         nextButton.addActionListener(e -> {
             frame.dispose();
             new GamePlay();
