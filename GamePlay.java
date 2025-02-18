@@ -53,46 +53,50 @@ public class GamePlay {
         frame = new JFrame("Hangman Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(850, 500);
-        frame.setLayout(new BorderLayout());
+        frame.setLayout(null);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 
-        JPanel mainPanel = new JPanel(new GridLayout(4, 1));
-        wordLabel = new JLabel(getMaskedWord(), SwingConstants.CENTER);
-        wordLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        
-        hintLabel = new JLabel("Hint: " + hint, SwingConstants.CENTER);
-        hintLabel.setFont(new Font("Arial", Font.ITALIC, 14));
-        
-        statusLabel = new JLabel("Enter a letter and press Enter", SwingConstants.CENTER);
-        statusLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        
-        attemptsLabel = new JLabel("Attempts left: " + attemptsLeft, SwingConstants.CENTER);
+        // Set Background
+        JLabel background = new JLabel(new ImageIcon("OSHang GUI/gameWindow.png"));
+        background.setBounds(0, 0, 850, 500);
+        frame.setContentPane(background);
+        background.setLayout(null);
 
-        mainPanel.add(wordLabel);
-        mainPanel.add(hintLabel);
-        mainPanel.add(statusLabel);
-        mainPanel.add(attemptsLabel);
+        wordLabel = createStyledLabel(getMaskedWord(), 24, 150);
+        hintLabel = createStyledLabel("Hint: " + hint, 14, 180);
+        statusLabel = createStyledLabel("Enter a letter and press Enter", 14, 210);
+        attemptsLabel = createStyledLabel("Attempts left: " + attemptsLeft, 14, 240);
 
-        frame.add(mainPanel, BorderLayout.NORTH);
-        frame.add(createKeyboardPanel(), BorderLayout.CENTER);
-        frame.add(createInputFieldPanel(), BorderLayout.SOUTH);
-        
+        background.add(wordLabel);
+        background.add(hintLabel);
+        background.add(statusLabel);
+        background.add(attemptsLabel);
+        background.add(createKeyboardPanel());
+        background.add(createInputFieldPanel());
+
         frame.setVisible(true);
+    }
+
+    private JLabel createStyledLabel(String text, int fontSize, int y) {
+        JLabel label = new JLabel(text, SwingConstants.CENTER);
+        label.setFont(new Font("Arial", Font.BOLD, fontSize));
+        label.setForeground(Color.WHITE);
+        label.setBounds(100, y, 650, 30);
+        return label;
     }
 
     private JPanel createKeyboardPanel() {
         JPanel keyboardPanel = new JPanel(new GridLayout(3, 10, 2, 2));
         keyboardPanel.setOpaque(false);
-        keyboardPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        keyboardPanel.setBounds(225, 280, 400, 100);
         keyboardMap = new HashMap<>();
         String keyboardLayout = "QWERTYUIOPASDFGHJKLZXCVBNM";
         
         for (char letter : keyboardLayout.toCharArray()) {
             JLabel letterLabel = new JLabel(String.valueOf(letter), SwingConstants.CENTER);
-            letterLabel.setFont(new Font("Arial", Font.BOLD, 12));
-            letterLabel.setForeground(Color.BLACK);
-            letterLabel.setPreferredSize(new Dimension(20, 20));
+            letterLabel.setFont(new Font("Arial", Font.BOLD, 14));
+            letterLabel.setForeground(Color.WHITE);
             letterLabel.setOpaque(false);
             keyboardMap.put(letter, letterLabel);
             keyboardPanel.add(letterLabel);
@@ -101,10 +105,15 @@ public class GamePlay {
     }
 
     private JPanel createInputFieldPanel() {
-        JPanel inputPanel = new JPanel(new FlowLayout());
+        JPanel inputPanel = new JPanel();
+        inputPanel.setOpaque(false);
+        inputPanel.setBounds(350, 400, 150, 50);
+        
         inputField = new JTextField(5);
         inputField.setFont(new Font("Arial", Font.BOLD, 20));
         inputField.setHorizontalAlignment(JTextField.CENTER);
+        inputField.setBackground(Color.WHITE);
+        inputField.setForeground(Color.BLACK);
         inputField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -144,7 +153,6 @@ public class GamePlay {
         wordLabel.setText(getMaskedWord());
         attemptsLabel.setText("Attempts left: " + attemptsLeft);
         inputField.setText("");
-        
         checkGameStatus();
     }
 
@@ -161,13 +169,14 @@ public class GamePlay {
 
     private void checkGameStatus() {
         if (String.valueOf(guessedWord).equals(wordToGuess)) {
-            statusLabel.setText("Congratulations! You won!");
-            inputField.setEnabled(false);
+            frame.dispose(); // Close the current window
+            new WordGuessed(); // Open the "You Won!" window
         } else if (attemptsLeft <= 0) {
-            statusLabel.setText("Game Over! The word was: " + wordToGuess);
-            inputField.setEnabled(false);
+            frame.dispose(); // Close the current window
+            new GameOver(); // Open the "Game Over" window
         }
     }
+
 
     public static void main(String[] args) {
         new GamePlay();

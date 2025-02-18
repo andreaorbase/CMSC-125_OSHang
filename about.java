@@ -24,7 +24,7 @@ public class about {
         newFrame.setContentPane(backgroundLabel);
         backgroundLabel.setLayout(null);
 
-        JButton backButton = createImageButton("OSHang GUI/homeButton.png", 370, 470, 50, 50);
+        JButton backButton = createImageButton("OSHang GUI/homeButton.png", 420, 470, 50, 50);
 
         backButton.addActionListener(new ActionListener() {
             @Override
