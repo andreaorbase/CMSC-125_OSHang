@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class GamePlay {
+    public static boolean isSfxOn = true;
     private JFrame frame;
     private JLabel wordLabel, statusLabel, attemptsLabel, hintLabel;
     private JTextField inputField;
@@ -49,6 +50,18 @@ public class GamePlay {
         }
     }
 
+    private JButton createImageButton(String imagePath, int x, int y) {
+        ImageIcon icon = new ImageIcon(imagePath);
+        JButton button = new JButton(icon);
+        button.setBounds(x, y, icon.getIconWidth(), icon.getIconHeight());
+        button.setBorderPainted(false);
+        button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
+        button.setOpaque(false);
+        return button;
+    }
+
+
     private void initializeUI() {
         frame = new JFrame("Hangman Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,7 +77,7 @@ public class GamePlay {
         background.setLayout(null);
 
         wordLabel = createStyledLabel(getMaskedWord(), 24, 150);
-        hintLabel = createStyledLabel("Hint: " + hint, 14, 180);
+        hintLabel = createStyledLabel(hint, 14, 180);
         statusLabel = createStyledLabel("Enter a letter and press Enter", 14, 210);
         attemptsLabel = createStyledLabel("Attempts left: " + attemptsLeft, 14, 240);
 
@@ -74,6 +87,27 @@ public class GamePlay {
         background.add(attemptsLabel);
         background.add(createKeyboardPanel());
         background.add(createInputFieldPanel());
+
+        // Instruction Button
+        JButton instructionButton = createImageButton("OSHang GUI/instructionButton.png", 750, 20);
+        instructionButton.addActionListener(e -> new InstructionWindow()); 
+
+        // Hint Button
+        JButton hintButton = createImageButton("OSHang GUI/hintButton.png", 750, 300);
+        hintButton.addActionListener(e -> revealHintLetter());
+
+        // Home Button
+        JButton homeButton = createImageButton("OSHang GUI/homeButton.png", 750, 360);
+        homeButton.addActionListener(e -> {
+            frame.dispose();
+            new MainMenu();
+        });
+
+        // Add buttons to the background panel
+        background.add(instructionButton);
+        background.add(hintButton);
+        background.add(homeButton);
+
 
         frame.setVisible(true);
     }
@@ -154,6 +188,16 @@ public class GamePlay {
         attemptsLabel.setText("Attempts left: " + attemptsLeft);
         inputField.setText("");
         checkGameStatus();
+    }
+
+    private void revealHintLetter() {
+        for (int i = 0; i < wordToGuess.length(); i++) {
+            if (guessedWord[i] == '_') {
+                guessedWord[i] = wordToGuess.charAt(i);
+                wordLabel.setText(getMaskedWord());
+                return;
+            }
+        }
     }
 
     private void updateKeyboard(char guessedChar, boolean correctGuess) {

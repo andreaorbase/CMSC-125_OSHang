@@ -9,12 +9,13 @@ import javax.sound.sampled.*;
 
 public class about {
     private JFrame newFrame;
+    public static boolean isSfxOn = true;
 
     public about() {
         newFrame = new JFrame("About OSHang");
         newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         newFrame.setSize(900, 583);
-        newFrame.setLayout(null); // Using absolute positioning like OSHang
+        newFrame.setLayout(null);
         newFrame.setResizable(false);
         newFrame.setLocationRelativeTo(null);
 
@@ -24,7 +25,7 @@ public class about {
         newFrame.setContentPane(backgroundLabel);
         backgroundLabel.setLayout(null);
 
-        JButton backButton = createImageButton("OSHang GUI/homeButton.png", 420, 470, 50, 50);
+        JButton backButton = createImageButton("OSHang GUI/homeButton.png", 425, 453, 50, 50);
 
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -54,6 +55,10 @@ public class about {
     }
 
     private static void playSound(String filePath) {
+        if (!settings.isSfxOn) { // Check global SFX setting
+            return; // Exit without playing sound
+        }
+        
         try {
             File audioFile = new File(filePath);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
