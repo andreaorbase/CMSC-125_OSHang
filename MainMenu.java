@@ -9,6 +9,9 @@ import java.io.IOException;
 public class MainMenu {
     private JFrame frame;
     private static Clip clip;
+    public static boolean isSfxOn = true;
+    public static boolean isMusicOn = true;
+
 
     public MainMenu() {
         playMusic("OSHang GUI/menuMusic.wav");
@@ -92,6 +95,10 @@ public class MainMenu {
     }
 
     private static void playSound(String filePath) {
+        if (!settings.isSfxOn) { // Check global SFX setting
+            return; // Exit without playing sound
+        }
+        
         try {
             File audioFile = new File(filePath);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
@@ -104,6 +111,9 @@ public class MainMenu {
     }
 
     public static void playMusic(String filePath) {
+        if (!settings.isMusicOn) { // Check global SFX setting
+            return; // Exit without playing sound
+        }
         try {
             File audioFile = new File(filePath);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);

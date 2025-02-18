@@ -9,6 +9,7 @@ import javax.sound.sampled.*;
 
 public class about {
     private JFrame newFrame;
+    public static boolean isSfxOn = true;
 
     public about() {
         newFrame = new JFrame("About OSHang");
@@ -54,6 +55,10 @@ public class about {
     }
 
     private static void playSound(String filePath) {
+        if (!settings.isSfxOn) { // Check global SFX setting
+            return; // Exit without playing sound
+        }
+        
         try {
             File audioFile = new File(filePath);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);

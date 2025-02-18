@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class GamePlay {
+    public static boolean isSfxOn = true;
     private JFrame frame;
     private JLabel wordLabel, statusLabel, attemptsLabel, hintLabel;
     private JTextField inputField;
