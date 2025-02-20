@@ -12,13 +12,14 @@ public class GamePlay {
     private JFrame frame;
     private JLabel background;
     private JButton instructionButton, hintButton, homeButton;
-    private JLabel wordLabel, statusLabel, attemptsLabel, hintLabel;
+    private JLabel wordLabel, statusLabel, attemptsLabel, hintLabel, scoreLabel;
     private JTextField inputField;
     private Map<Character, JLabel> keyboardMap;
     private String wordToGuess, hint;
     private char[] guessedWord;
     private Set<Character> guessedLetters;
     private int maxAttempts = 7, attemptsLeft;
+    private int score = 0;
 
     public GamePlay() {
         loadRandomWord();
@@ -67,8 +68,6 @@ public class GamePlay {
         return button;
     }
 
-
-    // Error GUI
     private String[] errorBackgrounds = {
         "OSHang GUI/Error GUI/errorA.png",
         "OSHang GUI/Error GUI/errorB.png",
@@ -77,7 +76,6 @@ public class GamePlay {
         "OSHang GUI/Error GUI/errorE.png",
         "OSHang GUI/Error GUI/errorF.png"
     };
-
 
     private void initializeUI() {
         frame = new JFrame("Hangman Game");
@@ -97,19 +95,29 @@ public class GamePlay {
         hintLabel = createStyledLabel(hint, 14, 180);
         statusLabel = createStyledLabel("Enter a letter and press Enter", 14, 210);
         attemptsLabel = createStyledLabel("Attempts left: " + attemptsLeft, 14, 240);
+        scoreLabel = createStyledLabel("Score: " + score, 14, 270);
 
         background.add(wordLabel);
         background.add(hintLabel);
         background.add(statusLabel);
         background.add(attemptsLabel);
+        background.add(scoreLabel);
         background.add(createKeyboardPanel());
         background.add(createInputFieldPanel());
 
         instructionButton = createImageButton("OSHang GUI/instructionButton.png", 775, 10, 50, 50);
-        instructionButton.addActionListener(e -> new InstructionWindow()); 
+        instructionButton.addActionListener(e -> new InstructionWindow());
 
         hintButton = createImageButton("OSHang GUI/hintButton.png", 750, 300, 50, 50);
-        hintButton.addActionListener(e -> revealHintLetter());
+        hintButton.addActionListener(e -> {
+            if (score >= 5) {
+                score -= 5; // Deduct 5 points for hint
+                scoreLabel.setText("Score: " + score); // Update score display
+                revealHintLetter();
+            } else {
+                statusLabel.setText("Not enough points to buy a hint!");
+            }
+        });
 
         homeButton = createImageButton("OSHang GUI/homeButton.png", 750, 360, 50, 50);
         homeButton.addActionListener(e -> {
@@ -154,13 +162,30 @@ public class GamePlay {
         JPanel inputPanel = new JPanel();
         inputPanel.setOpaque(false);
         inputPanel.setBounds(350, 400, 150, 50);
-        
+
         inputField = new JTextField(5);
         inputField.setFont(new Font("Arial", Font.BOLD, 20));
         inputField.setHorizontalAlignment(JTextField.CENTER);
         inputField.setBackground(Color.WHITE);
         inputField.setForeground(Color.BLACK);
+
+        // Add a KeyListener to filter input
         inputField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+
+                // Allow only alphabet keys (A-Z, a-z)
+                if (!Character.isLetter(c)) {
+                    e.consume(); // Ignore non-alphabet keys
+                }
+
+                // Limit input to one character
+                if (inputField.getText().length() >= 1) {
+                    e.consume(); // Ignore input if the box already has one character
+                }
+            }
+
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -168,6 +193,7 @@ public class GamePlay {
                 }
             }
         });
+
         inputPanel.add(inputField);
         return inputPanel;
     }
@@ -210,7 +236,6 @@ public class GamePlay {
         checkGameStatus(); 
     }
 
-
     private void updateBackground() {
         int errorIndex = maxAttempts - attemptsLeft - 1;
         if (errorIndex >= 0 && errorIndex < errorBackgrounds.length) {
@@ -234,10 +259,22 @@ public class GamePlay {
     }
 
     private void revealHintLetter() {
+        // Find the first hidden letter in the word
         for (int i = 0; i < wordToGuess.length(); i++) {
             if (guessedWord[i] == '_') {
-                guessedWord[i] = wordToGuess.charAt(i);
-                wordLabel.setText(getMaskedWord());
+                char revealedChar = wordToGuess.charAt(i);
+
+                // Reveal all instances of this letter in the word
+                for (int j = 0; j < wordToGuess.length(); j++) {
+                    if (wordToGuess.charAt(j) == revealedChar) {
+                        guessedWord[j] = revealedChar; // Reveal the letter
+                    }
+                }
+
+                wordLabel.setText(getMaskedWord()); // Update the displayed word
+
+                // Update the keyboard to mark the revealed letter as correct (green)
+                updateKeyboard(revealedChar, true);
                 return;
             }
         }
@@ -254,16 +291,46 @@ public class GamePlay {
         return String.valueOf(guessedWord).replace("", " ").trim();
     }
 
-    private void checkGameStatus() {
-        if (String.valueOf(guessedWord).equals(wordToGuess)) {
-            frame.dispose();
-            new WordGuessed(); 
-        } else if (attemptsLeft <= 0) {
-            frame.dispose(); 
-            new GameOver(); 
-        }
+    private void resetUI() {
+        // Reset background to the initial state
+        background.setIcon(new ImageIcon("OSHang GUI/gameWindow.png"));
+
+        // Reset button icons to their default state
+        updateButtonImage(instructionButton, "OSHang GUI/instructionButton.png");
+        updateButtonImage(hintButton, "OSHang GUI/hintButton.png");
+        updateButtonImage(homeButton, "OSHang GUI/homeButton.png");
     }
 
+    private void checkGameStatus() {
+        if (String.valueOf(guessedWord).equals(wordToGuess)) {
+            score += 10; // Award 10 points for correct guess
+            scoreLabel.setText("Score: " + score); // Update score display
+
+            // Proceed to the next word
+            loadRandomWord(); // Load a new word
+            guessedWord = new char[wordToGuess.length()];
+            Arrays.fill(guessedWord, '_');
+            guessedLetters.clear();
+            attemptsLeft = maxAttempts;
+
+            // Reset the UI to its initial state
+            resetUI();
+
+            // Update UI for the new word
+            wordLabel.setText(getMaskedWord());
+            hintLabel.setText(hint);
+            attemptsLabel.setText("Attempts left: " + attemptsLeft);
+
+            // Reset keyboard colors
+            for (JLabel letterLabel : keyboardMap.values()) {
+                letterLabel.setForeground(Color.WHITE);
+            }
+        } else if (attemptsLeft <= 0) {
+            // Player failed to guess the word
+            frame.dispose(); // Close the current game window
+            new GameOver(); // Display the Game Over screen
+        }
+    }
 
     public static void main(String[] args) {
         new GamePlay();
