@@ -50,43 +50,58 @@ class WordGuessed {
         return button;
     }
 }
+class GameOver extends JDialog {
+    private JFrame parent; // Store the reference to the GamePlay frame
 
-class GameOver {
-    private JFrame frame;
+    public GameOver(JFrame parent, int wordsGuessed) {
+        super(parent, "Game Over", true); // Modal dialog
+        this.parent = parent; // Store reference to the parent frame
 
-    public GameOver() {
-        frame = new JFrame("Game Over");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 320);
-        frame.setLayout(null);
-        frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
+        setSize(500, 320);
+        setLayout(null);
+        setResizable(false);
+        setLocationRelativeTo(parent); // Center relative to the parent window
 
         JLayeredPane layeredPane = new JLayeredPane();
-        layeredPane.setBounds(0, 0, frame.getWidth(), frame.getHeight());
+        layeredPane.setBounds(0, 0, getWidth(), getHeight());
 
         // Background Panel
         BackgroundPanel wrongGuessPanel = new BackgroundPanel("OSHang GUI/wrongGuess.png");
-        wrongGuessPanel.setBounds(0, 0, frame.getContentPane().getWidth(), frame.getContentPane().getHeight());
+        wrongGuessPanel.setBounds(0, 0, getContentPane().getWidth(), getContentPane().getHeight());
 
+        // Display the number of words guessed
+        JLabel wordsGuessedLabel = new JLabel("Words Guessed: " + wordsGuessed, SwingConstants.CENTER);
+        wordsGuessedLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        wordsGuessedLabel.setForeground(Color.WHITE);
+        wordsGuessedLabel.setBounds(0, 180, 500, 30); // Position the label
+        layeredPane.add(wordsGuessedLabel, Integer.valueOf(1));
+
+        // Home Button
         JButton homeButton = createImageButton("OSHang GUI/homeButton.png", 188, 230);
         homeButton.addActionListener(e -> {
-            frame.dispose();
-            new MainMenu();
+            dispose(); // Close the dialog
+            if (parent != null) {
+                parent.dispose(); // Close the GamePlay window
+            }
+            new MainMenu(); // Open the main menu
         });
 
+        // Try Again Button
         JButton againButton = createImageButton("OSHang GUI/againButton.png", 248, 230);
         againButton.addActionListener(e -> {
-            frame.dispose();
-            new GamePlay();
+            dispose(); // Close the dialog
+            if (parent != null) {
+                parent.dispose(); // Close the old GamePlay window
+            }
+            new GamePlay(); // Start a new game
         });
 
         layeredPane.add(wrongGuessPanel, Integer.valueOf(0));
         layeredPane.add(homeButton, Integer.valueOf(1));
         layeredPane.add(againButton, Integer.valueOf(1));
 
-        frame.add(layeredPane);
-        frame.setVisible(true);
+        add(layeredPane);
+        setVisible(true);
     }
 
     private JButton createImageButton(String path, int x, int y) {

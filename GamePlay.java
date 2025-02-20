@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
-
 public class GamePlay {
     public static boolean isSfxOn = true;
     private JFrame frame;
@@ -20,17 +19,19 @@ public class GamePlay {
     private Set<Character> guessedLetters;
     private int maxAttempts = 7, attemptsLeft;
     private int score = 0;
+    private int wordsGuessed = 0; // New counter for words guessed
 
     public GamePlay() {
+        score = 0; // Reset score
+        wordsGuessed = 0; // Reset words guessed
         loadRandomWord();
         guessedWord = new char[wordToGuess.length()];
         Arrays.fill(guessedWord, '_');
         guessedLetters = new HashSet<>();
         attemptsLeft = maxAttempts;
-
+    
         initializeUI();
     }
-
     private void loadRandomWord() {
         java.util.List<String[]> words = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader("words.txt"))) {
@@ -304,31 +305,31 @@ public class GamePlay {
     private void checkGameStatus() {
         if (String.valueOf(guessedWord).equals(wordToGuess)) {
             score += 10; // Award 10 points for correct guess
+            wordsGuessed++; // Increment words guessed counter
             scoreLabel.setText("Score: " + score); // Update score display
-
+    
             // Proceed to the next word
             loadRandomWord(); // Load a new word
             guessedWord = new char[wordToGuess.length()];
             Arrays.fill(guessedWord, '_');
             guessedLetters.clear();
             attemptsLeft = maxAttempts;
-
+    
             // Reset the UI to its initial state
             resetUI();
-
+    
             // Update UI for the new word
             wordLabel.setText(getMaskedWord());
             hintLabel.setText(hint);
             attemptsLabel.setText("Attempts left: " + attemptsLeft);
-
+    
             // Reset keyboard colors
             for (JLabel letterLabel : keyboardMap.values()) {
                 letterLabel.setForeground(Color.WHITE);
             }
         } else if (attemptsLeft <= 0) {
             // Player failed to guess the word
-            frame.dispose(); // Close the current game window
-            new GameOver(); // Display the Game Over screen
+            new GameOver(frame, wordsGuessed); // Display Game Over window as a modal dialog
         }
     }
 
