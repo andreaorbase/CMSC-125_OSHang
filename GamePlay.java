@@ -10,13 +10,15 @@ import java.util.*;
 public class GamePlay {
     public static boolean isSfxOn = true;
     private JFrame frame;
+    private JLabel background;
+    private JButton instructionButton, hintButton, homeButton;
     private JLabel wordLabel, statusLabel, attemptsLabel, hintLabel;
     private JTextField inputField;
     private Map<Character, JLabel> keyboardMap;
     private String wordToGuess, hint;
     private char[] guessedWord;
     private Set<Character> guessedLetters;
-    private int maxAttempts = 6, attemptsLeft;
+    private int maxAttempts = 7, attemptsLeft;
 
     public GamePlay() {
         loadRandomWord();
@@ -50,16 +52,31 @@ public class GamePlay {
         }
     }
 
-    private JButton createImageButton(String imagePath, int x, int y) {
-        ImageIcon icon = new ImageIcon(imagePath);
-        JButton button = new JButton(icon);
-        button.setBounds(x, y, icon.getIconWidth(), icon.getIconHeight());
+    private JButton createImageButton(String imagePath, int x, int y, int width, int height) {
+        ImageIcon originalIcon = new ImageIcon(imagePath);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+        JButton button = new JButton(scaledIcon);
+        button.setBounds(x, y, width, height);
         button.setBorderPainted(false);
         button.setContentAreaFilled(false);
         button.setFocusPainted(false);
         button.setOpaque(false);
+
         return button;
     }
+
+
+    // Error GUI
+    private String[] errorBackgrounds = {
+        "OSHang GUI/Error GUI/errorA.png",
+        "OSHang GUI/Error GUI/errorB.png",
+        "OSHang GUI/Error GUI/errorC.png",
+        "OSHang GUI/Error GUI/errorD.png",
+        "OSHang GUI/Error GUI/errorE.png",
+        "OSHang GUI/Error GUI/errorF.png"
+    };
 
 
     private void initializeUI() {
@@ -71,7 +88,7 @@ public class GamePlay {
         frame.setResizable(false);
 
         // Set Background
-        JLabel background = new JLabel(new ImageIcon("OSHang GUI/gameWindow.png"));
+        background = new JLabel(new ImageIcon("OSHang GUI/gameWindow.png"));
         background.setBounds(0, 0, 850, 500);
         frame.setContentPane(background);
         background.setLayout(null);
@@ -88,26 +105,21 @@ public class GamePlay {
         background.add(createKeyboardPanel());
         background.add(createInputFieldPanel());
 
-        // Instruction Button
-        JButton instructionButton = createImageButton("OSHang GUI/instructionButton.png", 750, 20);
+        instructionButton = createImageButton("OSHang GUI/instructionButton.png", 775, 10, 50, 50);
         instructionButton.addActionListener(e -> new InstructionWindow()); 
 
-        // Hint Button
-        JButton hintButton = createImageButton("OSHang GUI/hintButton.png", 750, 300);
+        hintButton = createImageButton("OSHang GUI/hintButton.png", 750, 300, 50, 50);
         hintButton.addActionListener(e -> revealHintLetter());
 
-        // Home Button
-        JButton homeButton = createImageButton("OSHang GUI/homeButton.png", 750, 360);
+        homeButton = createImageButton("OSHang GUI/homeButton.png", 750, 360, 50, 50);
         homeButton.addActionListener(e -> {
             frame.dispose();
             new MainMenu();
         });
 
-        // Add buttons to the background panel
         background.add(instructionButton);
         background.add(hintButton);
         background.add(homeButton);
-
 
         frame.setVisible(true);
     }
@@ -172,22 +184,53 @@ public class GamePlay {
             statusLabel.setText("Letter already guessed. Try again.");
             return;
         }
-        
+
         guessedLetters.add(guessedChar);
         boolean correctGuess = false;
+        
         for (int i = 0; i < wordToGuess.length(); i++) {
             if (wordToGuess.charAt(i) == guessedChar) {
                 guessedWord[i] = guessedChar;
                 correctGuess = true;
             }
         }
-        
-        if (!correctGuess) attemptsLeft--;
-        updateKeyboard(guessedChar, correctGuess);
+
+        if (!correctGuess) {
+            attemptsLeft--;
+            updateBackground();
+            updateKeyboard(guessedChar, false);
+        } else {
+            updateKeyboard(guessedChar, true);
+        }
+
         wordLabel.setText(getMaskedWord());
         attemptsLabel.setText("Attempts left: " + attemptsLeft);
         inputField.setText("");
-        checkGameStatus();
+
+        checkGameStatus(); 
+    }
+
+
+    private void updateBackground() {
+        int errorIndex = maxAttempts - attemptsLeft - 1;
+        if (errorIndex >= 0 && errorIndex < errorBackgrounds.length) {
+            background.setIcon(new ImageIcon(errorBackgrounds[errorIndex]));
+        }
+
+        if (errorIndex == 3) {
+            updateButtonImage(instructionButton, "OSHang GUI/Error GUI/errorDinstructionButton.png");
+            updateButtonImage(hintButton, "OSHang GUI/Error GUI/errorDhintButton.png");
+            updateButtonImage(homeButton, "OSHang GUI/Error GUI/errorDhomeButton.png");
+        } else if (errorIndex == 4) {
+            updateButtonImage(instructionButton, "OSHang GUI/Error GUI/errorEinstructionButton.png");
+            updateButtonImage(hintButton, "OSHang GUI/Error GUI/errorEhintButton.png");
+            updateButtonImage(homeButton, "OSHang GUI/Error GUI/errorEhomeButton.png");
+        }
+    }
+
+    private void updateButtonImage(JButton button, String imagePath) {
+        ImageIcon icon = new ImageIcon(imagePath);
+        button.setIcon(icon);
     }
 
     private void revealHintLetter() {
@@ -213,11 +256,11 @@ public class GamePlay {
 
     private void checkGameStatus() {
         if (String.valueOf(guessedWord).equals(wordToGuess)) {
-            frame.dispose(); // Close the current window
-            new WordGuessed(); // Open the "You Won!" window
+            frame.dispose();
+            new WordGuessed(); 
         } else if (attemptsLeft <= 0) {
-            frame.dispose(); // Close the current window
-            new GameOver(); // Open the "Game Over" window
+            frame.dispose(); 
+            new GameOver(); 
         }
     }
 
