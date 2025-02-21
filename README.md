@@ -8,7 +8,7 @@ Guess the secret Operating System-related word before your system "hangs" and cr
 📍 Scoring System  
 📍 Hint System  
 
-## USER-SYSTEM FLOW
+## User-System Flow
 🔵 Once the splash screen exits and the main menu appears, player can choose between 4 buttons  
   1️⃣ Play -- Redirects to the game proper  
   2️⃣ Settings -- Contains the music and sound effect option  
@@ -26,4 +26,8 @@ Guess the secret Operating System-related word before your system "hangs" and cr
 
 ## How to RUN
 Double click the exe file "OSHang.exe"  
+
+## License 📜
+This project is **free to use** and can be modified or distributed without any restrictions.
+
 
