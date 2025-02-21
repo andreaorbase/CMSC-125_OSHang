@@ -37,36 +37,35 @@ public class settings {
         });
 
         // Music Button
-<<<<<<< HEAD
-        JButton musicButton = createImageButton(isMusicOn? "OSHang GUI/musicOn.png": "OSHang GUI/musicOff.png", 425, 215, 50, 50);
-=======
-        JButton musicButton = createImageButton(isMusicOn? "OSHang GUI/musicOn.png": "OSHang GUI/musicOff.png", 475, 242, 50, 50);
->>>>>>> e6cb019da35cc291da2626ee1d670bffd3e16f0f
+        JButton musicButton = createImageButton(isMusicOn? "OSHang GUI/musicOn.png": "OSHang GUI/musicOff.png", 480, 240, 50, 50);
         musicButton.addActionListener(e -> {
+            isMusicOn = !isMusicOn; // Toggle the state
+        
             if (isMusicOn) {
+                playMusic("OSHang GUI/settingsMusic.wav"); // Play immediately
+                musicButton.setIcon(new ImageIcon("OSHang GUI/musicOn.png"));
+            } else {
                 stopMusic();
                 musicButton.setIcon(new ImageIcon("OSHang GUI/musicOff.png"));
-            } else {
-                playMusic("OSHang GUI/settingsMusic.wav");
-                musicButton.setIcon(new ImageIcon("OSHang GUI/musicOn.png"));
             }
-            isMusicOn = !isMusicOn;
         });
+        
+        
+
 
         // SFX Button
-<<<<<<< HEAD
-       JButton sfxButton = createImageButton(isSfxOn ? "OSHang GUI/sfxOn.png" : "OSHang GUI/sfxOff.png", 425, 275, 50, 50);
-=======
-       JButton sfxButton = createImageButton(isSfxOn ? "OSHang GUI/sfxOn.png" : "OSHang GUI/sfxOff.png", 475, 302, 50, 50);
->>>>>>> e6cb019da35cc291da2626ee1d670bffd3e16f0f
+       JButton sfxButton = createImageButton(isSfxOn ? "OSHang GUI/sfxOn.png" : "OSHang GUI/sfxOff.png", 480, 300, 50, 50);
         sfxButton.addActionListener(e -> {
+            isSfxOn = !isSfxOn; // Toggle the state
+
             if (isSfxOn) {
-                sfxButton.setIcon(new ImageIcon("OSHang GUI/sfxOff.png"));
-            } else {
                 sfxButton.setIcon(new ImageIcon("OSHang GUI/sfxOn.png"));
+                playSound("OSHang GUI/buttonClick.wav"); // Play a test sound when enabling SFX
+            } else {
+                sfxButton.setIcon(new ImageIcon("OSHang GUI/sfxOff.png"));
             }
-            isSfxOn = !isSfxOn; // Toggle the value
         });
+
 
         backgroundLabel.add(homeButton);
         backgroundLabel.add(musicButton);
@@ -106,24 +105,36 @@ public class settings {
     }
 
     public static void playMusic(String filePath) {
-        if (!settings.isMusicOn) { // Check global SFX setting
-            return; // Exit without playing sound
+        if (!isMusicOn) {
+            return; // Don't play if music is turned off
         }
+    
         try {
+            stopMusic(); // Stop and release any existing clip before creating a new one
+    
             File audioFile = new File(filePath);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+    
             clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
             clip.start();
+    
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
     }
+    
+    
+    
 
     public static void stopMusic() {
-        if (clip != null && clip.isRunning()) {
+        if (clip != null) {
             clip.stop();
+            clip.close(); // Fully release resources
+            clip = null;  // Reset clip reference so a fresh one is created later
         }
     }
+    
+    
 }

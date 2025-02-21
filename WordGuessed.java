@@ -1,10 +1,21 @@
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 class WordGuessed {
     private JFrame frame;
+    private static Clip clip;
+    public static boolean isMusicOn = true;
+    public static boolean isSfxOn = true;
 
     public WordGuessed() {
+        playMusic("OSHang GUI/gameWinnerMusic.wav");
         frame = new JFrame("Correct Guessed");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 320);
@@ -21,12 +32,16 @@ class WordGuessed {
 
         JButton homeButton = createImageButton("OSHang GUI/homeButton.png", 188, 210);
         homeButton.addActionListener(e -> {
+            stopMusic();
+            playSound("OSHang GUI/buttonClick.wav"); 
             frame.dispose();
             new MainMenu();
         });
 
         JButton nextButton = createImageButton("OSHang GUI/nextButton.png", 248, 210);
         nextButton.addActionListener(e -> {
+            stopMusic();
+            playSound("OSHang GUI/buttonClick.wav"); 
             frame.dispose();
             new GamePlay();
         });
@@ -49,12 +64,60 @@ class WordGuessed {
         button.setFocusPainted(false);
         return button;
     }
+
+    private static void playSound(String filePath) {
+        if (!settings.isSfxOn) { // Check global SFX setting
+            return; // Exit without playing sound
+        }
+        
+        try {
+            File audioFile = new File(filePath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void playMusic(String filePath) {
+        if (!settings.isMusicOn) { // Check global SFX setting
+            return; // Exit without playing sound
+        }
+        try {
+            File audioFile = new File(filePath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY); // Loop the music indefinitely
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void stopMusic() {
+        if (clip != null && clip.isRunning()) {
+            clip.stop();
+        }
+    }
+    
+    
+    
+
 }
 class GameOver extends JDialog {
+    private static Clip clip;
+    public static boolean isMusicOn = true;
+    public static boolean isSfxOn = true;
+
     private JFrame parent; // Store the reference to the GamePlay frame
 
     public GameOver(JFrame parent, int wordsGuessed) {
+        
         super(parent, "Game Over", true); // Modal dialog
+        playMusic("OSHang GUI/gameOverMusic.wav");
         this.parent = parent; // Store reference to the parent frame
 
         setSize(500, 320);
@@ -79,6 +142,8 @@ class GameOver extends JDialog {
         // Home Button
         JButton homeButton = createImageButton("OSHang GUI/homeButton.png", 188, 210);
         homeButton.addActionListener(e -> {
+            stopMusic();
+            playSound("OSHang GUI/buttonClick.wav"); 
             dispose(); 
             if (parent != null) {
                 parent.dispose(); 
@@ -89,6 +154,8 @@ class GameOver extends JDialog {
         // Try Again Button
         JButton againButton = createImageButton("OSHang GUI/againButton.png", 248, 210);
         againButton.addActionListener(e -> {
+            stopMusic();
+            playSound("OSHang GUI/buttonClick.wav"); 
             dispose(); 
             if (parent != null) {
                 parent.dispose(); 
@@ -113,6 +180,43 @@ class GameOver extends JDialog {
         button.setContentAreaFilled(false);
         button.setFocusPainted(false);
         return button;
+    }
+    private static void playSound(String filePath) {
+        if (!settings.isSfxOn) { // Check global SFX setting
+            return; // Exit without playing sound
+        }
+        
+        try {
+            File audioFile = new File(filePath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void playMusic(String filePath) {
+        if (!settings.isMusicOn) { // Check global SFX setting
+            return; // Exit without playing sound
+        }
+        try {
+            File audioFile = new File(filePath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY); // Loop the music indefinitely
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void stopMusic() {
+        if (clip != null && clip.isRunning()) {
+            clip.stop();
+        }
     }
 }
 

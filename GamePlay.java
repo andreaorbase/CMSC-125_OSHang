@@ -1,15 +1,23 @@
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
 public class GamePlay {
     public static boolean isSfxOn = true;
+    private static Clip clip;
+    public static boolean isMusicOn = true;
     private JFrame frame;
     private JLabel background;
     private JButton instructionButton, hintButton, homeButton;
@@ -24,6 +32,7 @@ public class GamePlay {
     private int wordsGuessed = 0; // New counter for words guessed
 
     public GamePlay() {
+        playMusic("OSHang GUI/gamePlayMusic.wav");
         score = 0; // Reset score
         wordsGuessed = 0; // Reset words guessed
         loadRandomWord();
@@ -114,7 +123,10 @@ public class GamePlay {
 
 
         instructionButton = createImageButton("OSHang GUI/instructionButton.png", 775, 10, 50, 50);
-        instructionButton.addActionListener(e -> new InstructionWindow());
+        instructionButton.addActionListener(e -> {
+            playSound("OSHang GUI/buttonClick.wav"); 
+            new InstructionWindow();
+        });
 
         instructionButton.setPreferredSize(new Dimension(50, 50));
         instructionButton.setMinimumSize(new Dimension(50, 50));
@@ -122,6 +134,7 @@ public class GamePlay {
 
         hintButton = createImageButton("OSHang GUI/hintButton.png", 750, 300, 50, 50);
         hintButton.addActionListener(e -> {
+            playSound("OSHang GUI/buttonClick.wav"); 
             if (score >= 5) {
                 score -= 5; // Deduct 5 points for hint
                 scoreLabel.setText("Score: " + score); // Update score display
@@ -137,6 +150,8 @@ public class GamePlay {
 
         homeButton = createImageButton("OSHang GUI/homeButton.png", 750, 360, 50, 50);
         homeButton.addActionListener(e -> {
+            playSound("OSHang GUI/buttonClick.wav"); 
+            stopMusic();
             frame.dispose();
             new MainMenu();
         });
@@ -242,10 +257,13 @@ public class GamePlay {
         }
 
         if (!correctGuess) {
+            playSound("OSHang GUI/warningMusic.wav"); 
             attemptsLeft--;
             updateBackground();
             updateKeyboard(guessedChar, false);
         } else {
+            playSound("OSHang GUI/correctMusic.wav"); 
+            
             updateKeyboard(guessedChar, true);
         }
 
@@ -259,6 +277,7 @@ public class GamePlay {
     private void updateBackground() {
         int errorIndex = maxAttempts - attemptsLeft - 1;
         if (errorIndex >= 0 && errorIndex < errorBackgrounds.length) {
+
             background.setIcon(new ImageIcon(errorBackgrounds[errorIndex]));
         }
 
@@ -371,8 +390,47 @@ public class GamePlay {
             timer.setRepeats(false); // Run only once
             timer.start();
         } else if (attemptsLeft <= 0) {
+            stopMusic();
             // Player failed to guess the word
             new GameOver(frame, wordsGuessed); 
+        }
+    }
+
+    private static void playSound(String filePath) {
+        if (!settings.isSfxOn) { // Check global SFX setting
+            return; // Exit without playing sound
+        }
+        
+        try {
+            File audioFile = new File(filePath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void playMusic(String filePath) {
+        if (!settings.isMusicOn) { // Check global SFX setting
+            return; // Exit without playing sound
+        }
+        try {
+            File audioFile = new File(filePath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY); // Loop the music indefinitely
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void stopMusic() {
+        if (clip != null && clip.isRunning()) {
+            clip.stop();
         }
     }
 

@@ -9,9 +9,12 @@ import javax.sound.sampled.*;
 
 public class about {
     private JFrame newFrame;
+    private static Clip clip;
     public static boolean isSfxOn = true;
+    public static boolean isMusicOn = true;
 
     public about() {
+        playMusic("OSHang GUI/aboutMusic.wav");
         newFrame = new JFrame("About OSHang");
         newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         newFrame.setSize(900, 583);
@@ -30,6 +33,7 @@ public class about {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                stopMusic();
                 playSound("OSHang GUI/buttonClick.wav"); 
                 newFrame.dispose(); // Close current window
                 new MainMenu(); // Open new window
@@ -67,6 +71,28 @@ public class about {
             clip.start();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void playMusic(String filePath) {
+        if (!settings.isMusicOn) { // Check global SFX setting
+            return; // Exit without playing sound
+        }
+        try {
+            File audioFile = new File(filePath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY); // Loop the music indefinitely
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void stopMusic() {
+        if (clip != null && clip.isRunning()) {
+            clip.stop();
         }
     }
 }
