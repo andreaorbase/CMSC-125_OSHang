@@ -16,7 +16,7 @@ public class settings {
         playMusic("OSHang GUI/settingsMusic.wav");
         newFrame = new JFrame("Settings Window");
         newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        newFrame.setSize(800, 525);
+        newFrame.setSize(900, 583);
         newFrame.setLayout(null);
         newFrame.setResizable(false);
         newFrame.setLocationRelativeTo(null);
@@ -28,7 +28,7 @@ public class settings {
         backgroundLabel.setLayout(null);
 
         // Home Button
-        JButton homeButton = createImageButton("OSHang GUI/homeButton.png", 370, 400, 50, 50);
+        JButton homeButton = createImageButton("OSHang GUI/homeButton.png", 425, 433, 50, 50);
         homeButton.addActionListener(e -> {
             playSound("OSHang GUI/buttonClick.wav");
             stopMusic();
@@ -37,7 +37,11 @@ public class settings {
         });
 
         // Music Button
+<<<<<<< HEAD
         JButton musicButton = createImageButton(isMusicOn? "OSHang GUI/musicOn.png": "OSHang GUI/musicOff.png", 425, 215, 50, 50);
+=======
+        JButton musicButton = createImageButton(isMusicOn? "OSHang GUI/musicOn.png": "OSHang GUI/musicOff.png", 475, 242, 50, 50);
+>>>>>>> e6cb019da35cc291da2626ee1d670bffd3e16f0f
         musicButton.addActionListener(e -> {
             if (isMusicOn) {
                 stopMusic();
@@ -50,7 +54,11 @@ public class settings {
         });
 
         // SFX Button
+<<<<<<< HEAD
        JButton sfxButton = createImageButton(isSfxOn ? "OSHang GUI/sfxOn.png" : "OSHang GUI/sfxOff.png", 425, 275, 50, 50);
+=======
+       JButton sfxButton = createImageButton(isSfxOn ? "OSHang GUI/sfxOn.png" : "OSHang GUI/sfxOff.png", 475, 302, 50, 50);
+>>>>>>> e6cb019da35cc291da2626ee1d670bffd3e16f0f
         sfxButton.addActionListener(e -> {
             if (isSfxOn) {
                 sfxButton.setIcon(new ImageIcon("OSHang GUI/sfxOff.png"));

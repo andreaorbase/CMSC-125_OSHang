@@ -17,7 +17,7 @@ public class MainMenu {
         playMusic("OSHang GUI/menuMusic.wav");
         frame = new JFrame("OSHang");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 525);
+        frame.setSize(900, 583);
         frame.setLayout(null); 
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
@@ -28,10 +28,10 @@ public class MainMenu {
         frame.setContentPane(serverRoomLabel);
         serverRoomLabel.setLayout(null);
 
-        JButton playButton = createImageButton("OSHang GUI/playButton.png", 300, 150, 155, 50);
-        JButton settingsButton = createImageButton("OSHang GUI/settingsButton.png", 300, 220, 155, 50);
-        JButton exitButton = createImageButton("OSHang GUI/exitButton.png", 300, 290, 155, 50);
-        JButton aboutButton = createImageButton("OSHang GUI/aboutButton.png", 700, 410, 50, 50);
+        JButton playButton = createImageButton("OSHang GUI/playButton.png", 372, 213, 155, 50);
+        JButton settingsButton = createImageButton("OSHang GUI/settingsButton.png", 372, 273, 155, 50);
+        JButton exitButton = createImageButton("OSHang GUI/exitButton.png", 372, 333, 155, 50);
+        JButton aboutButton = createImageButton("OSHang GUI/aboutButton.png", 800, 473, 50, 50);
 
         playButton.addActionListener(new ActionListener() {
             @Override
