@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -6,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+
 public class GamePlay {
     public static boolean isSfxOn = true;
     private JFrame frame;
@@ -300,6 +302,7 @@ public class GamePlay {
 
                 // Update the keyboard to mark the revealed letter as correct (green)
                 updateKeyboard(revealedChar, true);
+                checkGameStatus();
                 return;
             }
         }
@@ -332,28 +335,44 @@ public class GamePlay {
             wordsGuessed++; // Increment words guessed counter
             scoreLabel.setText("Score: " + score); // Update score display
     
-            // Proceed to the next word
-            loadRandomWord(); // Load a new word
-            guessedWord = new char[wordToGuess.length()];
-            Arrays.fill(guessedWord, '_');
-            guessedLetters.clear();
-            attemptsLeft = maxAttempts;
+            // Show the "You guessed the word!" message
+            JLabel guessedMessage = new JLabel("You guessed the word: " + wordToGuess, SwingConstants.CENTER);
+            guessedMessage.setFont(new Font("Arial", Font.BOLD, 24));
+            guessedMessage.setForeground(Color.GREEN);
+            guessedMessage.setBounds(200, 75, 450, 50);
+            background.add(guessedMessage);
+            background.revalidate();
+            background.repaint();
     
-            // Reset the UI to its initial state
-            resetUI();
+            // Timer to remove the message after 3 seconds
+            Timer timer = new Timer(2000, e -> {
+                background.remove(guessedMessage);
+                background.revalidate();
+                background.repaint();
     
-            // Update UI for the new word
-            wordLabel.setText(getMaskedWord());
-            hintLabel.setText(hint);
-            attemptsLabel.setText("Attempts left: " + attemptsLeft);
-    
-            // Reset keyboard colors
-            for (JLabel letterLabel : keyboardMap.values()) {
-                letterLabel.setForeground(Color.WHITE);
-            }
+                // Proceed to the next word after the delay
+                loadRandomWord(); 
+                guessedWord = new char[wordToGuess.length()];
+                Arrays.fill(guessedWord, '_');
+                guessedLetters.clear();
+                attemptsLeft = maxAttempts;
+        
+                // Reset the UI to its initial state
+                resetUI();
+                wordLabel.setText(getMaskedWord());
+                hintLabel.setText(hint);
+                attemptsLabel.setText("Attempts left: " + attemptsLeft);
+        
+                // Reset keyboard colors
+                for (JLabel letterLabel : keyboardMap.values()) {
+                    letterLabel.setForeground(Color.WHITE);
+                }
+            });
+            timer.setRepeats(false); // Run only once
+            timer.start();
         } else if (attemptsLeft <= 0) {
             // Player failed to guess the word
-            new GameOver(frame, wordsGuessed); // Display Game Over window as a modal dialog
+            new GameOver(frame, wordsGuessed); 
         }
     }
 
