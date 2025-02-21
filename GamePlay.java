@@ -52,7 +52,7 @@ public class GamePlay {
             wordToGuess = chosenWord[0].toUpperCase();
             hint = chosenWord[1];
         }
-    }
+    } 
 
     private JButton createImageButton(String imagePath, int x, int y, int width, int height) {
         ImageIcon originalIcon = new ImageIcon(imagePath);
@@ -106,8 +106,17 @@ public class GamePlay {
         background.add(createKeyboardPanel());
         background.add(createInputFieldPanel());
 
+
+        scoreLabel.setBounds(520, 17, 200, 30);
+        scoreLabel.setHorizontalAlignment(SwingConstants.LEFT);
+
+
         instructionButton = createImageButton("OSHang GUI/instructionButton.png", 775, 10, 50, 50);
         instructionButton.addActionListener(e -> new InstructionWindow());
+
+        instructionButton.setPreferredSize(new Dimension(50, 50));
+        instructionButton.setMinimumSize(new Dimension(50, 50));
+        instructionButton.setMaximumSize(new Dimension(50, 50));
 
         hintButton = createImageButton("OSHang GUI/hintButton.png", 750, 300, 50, 50);
         hintButton.addActionListener(e -> {
@@ -120,11 +129,19 @@ public class GamePlay {
             }
         });
 
+        hintButton.setPreferredSize(new Dimension(50, 50));
+        hintButton.setMinimumSize(new Dimension(50, 50));
+        hintButton.setMaximumSize(new Dimension(50, 50));
+
         homeButton = createImageButton("OSHang GUI/homeButton.png", 750, 360, 50, 50);
         homeButton.addActionListener(e -> {
             frame.dispose();
             new MainMenu();
         });
+
+        homeButton.setPreferredSize(new Dimension(50, 50));
+        homeButton.setMinimumSize(new Dimension(50, 50));
+        homeButton.setMaximumSize(new Dimension(50, 50));
 
         background.add(instructionButton);
         background.add(hintButton);
@@ -256,8 +273,15 @@ public class GamePlay {
 
     private void updateButtonImage(JButton button, String imagePath) {
         ImageIcon icon = new ImageIcon(imagePath);
-        button.setIcon(icon);
+        Image img = icon.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH); 
+        button.setIcon(new ImageIcon(img));
+
+        // Reapply fixed size to prevent resizing
+        button.setPreferredSize(new Dimension(50, 50));
+        button.setMinimumSize(new Dimension(50, 50));
+        button.setMaximumSize(new Dimension(50, 50));
     }
+
 
     private void revealHintLetter() {
         // Find the first hidden letter in the word

@@ -19,13 +19,13 @@ class WordGuessed {
         BackgroundPanel correctGuessPanel = new BackgroundPanel("OSHang GUI/correctGuess.png");
         correctGuessPanel.setBounds(0, 0, frame.getContentPane().getWidth(), frame.getContentPane().getHeight());
 
-        JButton homeButton = createImageButton("OSHang GUI/homeButton.png", 188, 230);
+        JButton homeButton = createImageButton("OSHang GUI/homeButton.png", 188, 210);
         homeButton.addActionListener(e -> {
             frame.dispose();
             new MainMenu();
         });
 
-        JButton nextButton = createImageButton("OSHang GUI/nextButton.png", 248, 230);
+        JButton nextButton = createImageButton("OSHang GUI/nextButton.png", 248, 210);
         nextButton.addActionListener(e -> {
             frame.dispose();
             new GamePlay();
@@ -73,27 +73,27 @@ class GameOver extends JDialog {
         JLabel wordsGuessedLabel = new JLabel("Words Guessed: " + wordsGuessed, SwingConstants.CENTER);
         wordsGuessedLabel.setFont(new Font("Arial", Font.BOLD, 18));
         wordsGuessedLabel.setForeground(Color.WHITE);
-        wordsGuessedLabel.setBounds(0, 180, 500, 30); // Position the label
+        wordsGuessedLabel.setBounds(50, 165, 400, 30); // Position the label
         layeredPane.add(wordsGuessedLabel, Integer.valueOf(1));
 
         // Home Button
-        JButton homeButton = createImageButton("OSHang GUI/homeButton.png", 188, 230);
+        JButton homeButton = createImageButton("OSHang GUI/homeButton.png", 188, 210);
         homeButton.addActionListener(e -> {
-            dispose(); // Close the dialog
+            dispose(); 
             if (parent != null) {
-                parent.dispose(); // Close the GamePlay window
+                parent.dispose(); 
             }
-            new MainMenu(); // Open the main menu
+            new MainMenu(); 
         });
 
         // Try Again Button
-        JButton againButton = createImageButton("OSHang GUI/againButton.png", 248, 230);
+        JButton againButton = createImageButton("OSHang GUI/againButton.png", 248, 210);
         againButton.addActionListener(e -> {
-            dispose(); // Close the dialog
+            dispose(); 
             if (parent != null) {
-                parent.dispose(); // Close the old GamePlay window
+                parent.dispose(); 
             }
-            new GamePlay(); // Start a new game
+            new GamePlay(); 
         });
 
         layeredPane.add(wrongGuessPanel, Integer.valueOf(0));
@@ -122,7 +122,7 @@ class BackgroundPanel extends JPanel {
 
     public BackgroundPanel(String imagePath) {
         this.backgroundImage = new ImageIcon(imagePath).getImage();
-        setLayout(new BorderLayout()); // Ensure proper layout handling
+        setLayout(new BorderLayout()); 
     }
 
     @Override
