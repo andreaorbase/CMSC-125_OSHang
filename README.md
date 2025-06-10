@@ -1,5 +1,9 @@
-# OSHang 🎮
+# OSHang
+### An Operating-System-Themed Hangman Game
 Guess the secret Operating System-related word before your system "hangs" and crashes!
+
+## Table of Contents
+- [Overview](#overview)
 
 ## Features
 📍 Splash Screen  
@@ -33,7 +37,9 @@ Guess the secret Operating System-related word before your system "hangs" and cr
   
 🎯 If the word is guessed before the player runs out of attempts, they will **earn 10 points** and load the next word. Using these points, the player can buy a hint to reveal a random letter. Each costs 5 points.
   
-🎯 The game will only end when player fails to guess the word, exits the game, or go back to main menu.  
+🎯 The game will only end when player fails to guess the word, exits the game, or go back to main menu.
+
+## Overview
 
 ## How to RUN
 REQUISITE: **jdk 21** 
