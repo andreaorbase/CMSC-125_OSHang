@@ -4,15 +4,34 @@ Guess the secret Operating System-related word before your system "hangs" and cr
 
 ## Table of Contents
 - [Overview](#overview)
+- [Features](#features)
+- [Files and Directories](#files-and-directories)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [User System Flow](#user-system-flow)
+  - [Example](#example)
+- [Contributing](#contributing)
+  - [License](#license)
+
+## Overview
 
 ## Features
 📍 Splash Screen  
 📍 Music and Sound Effect  
 📍 Keyboard Input Handling  
 📍 Scoring System  
-📍 Hint System  
+📍 Hint System
 
-## User-System Flow
+## Files and Directories
+
+## Getting Started
+
+### Prerequisites
+REQUISITE: **jdk 21** 
+
+Double click the exe file "OSHang.exe" 
+
+### User-System Flow
 🎯 Once the splash screen exits and the main menu appears, player can choose between 4 buttons  
   &emsp; 1️⃣ **Play** -- Redirects to game proper and where the **Instructions** can be found  
   &emsp; 2️⃣ **Settings** -- Contains the music and sound effect option  
@@ -23,7 +42,9 @@ Guess the secret Operating System-related word before your system "hangs" and cr
   
 🎯 Player enters an alphabet key in the text field and submit this guess by pressing the enter key. No number and special symbols are allowed to be typed.  
   
-🎯 The system will check if the letter is in the word.   
+🎯 The system will check if the letter is in the word.
+
+### Example
   &emsp; 🟩 If it **IS** in the word  
   &emsp; 👉🏻 all the instances of the letter in the word will appear, replacing the _ they are positioned in; and   
   &emsp; 👉🏻 the letter in the virtual keyboard will turn green;     
@@ -39,14 +60,9 @@ Guess the secret Operating System-related word before your system "hangs" and cr
   
 🎯 The game will only end when player fails to guess the word, exits the game, or go back to main menu.
 
-## Overview
-
-## How to RUN
-REQUISITE: **jdk 21** 
-
-Double click the exe file "OSHang.exe"  
-
-## License 📜
+## Contributing
+ 
+### License 📜
 This project is **free to use** and can be modified or distributed without any restrictions.
 
 
