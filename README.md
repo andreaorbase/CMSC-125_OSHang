@@ -62,7 +62,7 @@ Double click the exe file "OSHang.exe"
 
 ## Contributing
  
-### License 📜
+### License
 This project is **free to use** and can be modified or distributed without any restrictions.
 
 
