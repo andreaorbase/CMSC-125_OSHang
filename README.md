@@ -14,13 +14,14 @@ Guess the secret Operating System-related word before your system "hangs" and cr
   - [License](#license)
 
 ## Overview
+OSHang is a Hangman game where players guess words related to Operating System (OS) concepts. Designed to test knowledge on terms like "scheduling", "kernel", or "deadlock". The game features a hacking inspired aesthetic, immersive pixel art GUI, perfect for anyone wanting to review OS topics in an interactive way.
 
 ## Features
-📍 Splash Screen  
-📍 Music and Sound Effect  
-📍 Keyboard Input Handling  
-📍 Scoring System  
-📍 Hint System
+- Splash Screen  
+- Music and Sound Effect  
+- Mouse Keyboard Input Handling  
+- Scoring System  
+- Hint System
 
 ## Files and Directories
 
