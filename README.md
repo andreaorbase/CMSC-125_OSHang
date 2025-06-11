@@ -45,7 +45,8 @@ To run **OSHang**, ensure the following are installed or available:
 To launch the game:
 
 - Double-click the `OSHang.exe` file, or  
-- Run the `.jar` file using:
+- Run the `.jar` file using: `java -jar OSHang.jar`
+  <pre> ```bash java -jar OSHang.jar ``` </pre>
 
 ### User-System Flow
 🎯 Once the splash screen exits and the main menu appears, player can choose between 4 buttons  
