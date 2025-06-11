@@ -29,15 +29,23 @@ OSHang is a Hangman game where players guess words related to Operating System (
 - src/ - java source files
 - exe - executable versions
 - jar - exported Java Archive files
-- word.txt - list of one-worded OS terms
-- word2.txt - list of two-worded OS terms 
+- word.txt - list of one-word OS terms
+- word2.txt - list of two-word OS terms 
 
 ## Getting Started
 
 ### Prerequisites
-REQUISITE: **jdk 21** 
 
-Double click the exe file "OSHang.exe" 
+To run **OSHang**, ensure the following are installed or available:
+
+- **Java Development Kit (JDK) 21** or later  
+- A system that supports running `.exe` or `.jar` files  
+- *Optional:* Java Runtime Environment (JRE) for running `.jar` without compiling
+
+To launch the game:
+
+- Double-click the `OSHang.exe` file, or  
+- Run the `.jar` file using:
 
 ### User-System Flow
 🎯 Once the splash screen exits and the main menu appears, player can choose between 4 buttons  
