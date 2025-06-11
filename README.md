@@ -10,8 +10,7 @@ Guess the secret Operating System-related word before your system "hangs" and cr
   - [Prerequisites](#prerequisites)
   - [User System Flow](#user-system-flow)
   - [Example](#example)
-- [Contributing](#contributing)
-  - [License](#license)
+- [License](#license)
 
 ## Overview
 OSHang is a Hangman game where players guess words related to Operating System (OS) concepts. Designed to test knowledge on terms like "scheduling", "kernel", or "deadlock". The game features a hacking inspired aesthetic, immersive pixel art GUI, perfect for anyone wanting to review OS topics in an interactive way.
@@ -46,7 +45,7 @@ To launch the game:
 
 - Double-click the `OSHang.exe` file, or  
 - Run the `.jar` file using:
-  <pre>  `java -jar OSHang.jar` </pre>
+  <pre>  java -jar OSHang.jar </pre>
 
 ### User-System Flow
 
@@ -94,8 +93,6 @@ Once the splash screen finishes, the **Main Menu** will appear with four options
 - Visual changes simulate a system glitch or error.  
 - Letter turns red.  
 - Remaining attempts decrease.
-
-## Contributing
  
 ### License
 This project is **free to use** and can be modified or distributed without any restrictions.
