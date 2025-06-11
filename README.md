@@ -74,27 +74,27 @@ Once the splash screen finishes, the **Main Menu** will appear with four options
 - The player is allowed **7 incorrect guesses**. If all are used, the game ends.
 
 - If the player completes the word before reaching the limit:
-- They earn **10 points**.
-- The next word loads automatically.
-- Players may spend **5 points** to purchase a hint, which reveals one random letter in the current word.
+  - They earn **10 points**.
+  - The next word loads automatically.
+  - Players may spend **5 points** to purchase a hint, which reveals one random letter in the current word.
 
 - The game ends if:
-- The word is not guessed in 7 tries  
-- The player exits  
-- The player returns to the main menu
+  - The word is not guessed in 7 tries  
+  - The player exits  
+  - The player returns to the main menu
 
 ### Example
 
 - **Correct guess**:
-- Matching letters appear in place of underscores.  
-- Letter turns green on the keyboard.
+  - Matching letters appear in place of underscores.  
+  - Letter turns green on the keyboard.
 
 - **Incorrect guess**:
-- Visual changes simulate a system glitch or error.  
-- Letter turns red.  
-- Remaining attempts decrease.
+  - Visual changes simulate a system glitch or error.  
+  - Letter turns red.  
+  - Remaining attempts decrease.
  
-### License
+## License
 This project is **free to use** and can be modified or distributed without any restrictions.
 
 
