@@ -1,5 +1,4 @@
 # OSHang: OS-Themed Hangman Game
-### An Operating-System-Themed Hangman Game
 
 ## Table of Contents
 - [Overview](#overview)
