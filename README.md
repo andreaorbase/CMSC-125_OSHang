@@ -1,4 +1,4 @@
-# OSHang
+# OSHang: OS-Themed Hangman Game
 ### An Operating-System-Themed Hangman Game
 Guess the secret Operating System-related word before your system "hangs" and crashes!
 
