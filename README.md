@@ -83,7 +83,7 @@ Once the splash screen finishes, the **Main Menu** will appear with four options
   - The player returns to the main menu
 
 ### Preview
-![OSHang Preview](src/gui/oshang-preview.png)
+![OSHang Preview](OSHang-Gui/oshang-preview.png)
 
 ### Example
 
