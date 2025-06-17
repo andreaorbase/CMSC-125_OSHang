@@ -7,6 +7,7 @@
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [User System Flow](#user-system-flow)
+  - [Preview](#preview)
   - [Example](#example)
 - [License](#license)
 
